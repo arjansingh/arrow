@@ -25,7 +25,7 @@
 //    , "sh" : ["--seleniumHost"]
 // }
 
-var MasterArrow = function(params, sliceOff) {
+var ArrowModule = function(params, sliceOff) {
         // Libraries
     var Arrow = require("./lib/interface/arrow"),
         ArrowSetup = require('./lib/util/arrowsetup'),
@@ -35,37 +35,37 @@ var MasterArrow = function(params, sliceOff) {
         self = this,
         knownOpts, shortHands = {};
 
-    // Being nice and setting this if someone forgets.
+    // number of leading args to ignore (e.g. node, arrow)
     sliceOff = sliceOff || 0;
 
     // Configuration Options. Used by 'nopt'
     knownOpts = {
         "browser": [String, null],
-        "lib": [String, null],
-        "shareLibPath": [String, null],
-        "enableShareLibYUILoader": Boolean,
-        "page": [String, null],
-        "driver": [String, null],
+        "capabilities": [String, null],
+        "color": Boolean,
+        "context": [String, null],
         "controller": [String, null],
-        "engine": [String, null],
-        "engineConfig": [String, null],
-        "reuseSession": Boolean,
-        "parallel": [Number, null],
-        "report": Boolean,
         "coverage": Boolean,
         "coverageExclude": [String, null],
-        "reportFolder": [String, null],
-        "testName": [String, null],
-        "group": [String, null],
-        "logLevel": [String, null],
-        "context": [String, null],
         "dimensions": [String, null],
-        "capabilities": [String, null],
-        "seleniumHost": [String, null],
-        "retryCount": [Number, null],
+        "driver": [String, null],
+        "enableShareLibYUILoader": Boolean,
+        "engine": [String, null],
+        "engineConfig": [String, null],
         "exitCode": Boolean,
-        "color": Boolean,
-        "keepIstanbulCoverageJson": Boolean
+        "group": [String, null],
+        "keepIstanbulCoverageJson": Boolean,
+        "lib": [String, null],
+        "logLevel": [String, null],
+        "page": [String, null],
+        "shareLibPath": [String, null],
+        "parallel": [Number, null],
+        "reuseSession": Boolean,
+        "report": Boolean,
+        "reportFolder": [String, null],
+        "retryCount": [Number, null],
+        "seleniumHost": [String, null],
+        "testName": [String, null]
     };
 
 
@@ -281,9 +281,8 @@ var MasterArrow = function(params, sliceOff) {
         }
     };
 
-    // WIP
     self.startArrow = function (config, options) {
-        // TODO: arrowSetup move to Arrow
+        // TODO: move arrow setup to Arrow
         var arrow = new Arrow(config, options),
             arrowSetup = new ArrowSetup(config, options);
 
@@ -296,9 +295,9 @@ var MasterArrow = function(params, sliceOff) {
 };
 
 if (require.main === module) {
-    // Run from commandline
-    new MasterArrow(process.argv, 2);
+    // This is being run from the command line.
+    new ArrowModule(process.argv, 2);
 } else {
     // This is being accessed as a module.
-    module.exports = MasterArrow;
+    module.exports = ArrowModule;
 }
